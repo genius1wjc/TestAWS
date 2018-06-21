@@ -12,9 +12,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        textView.setOnClickListener({ v ->
+        button.setOnClickListener({ v ->
             v.visibility = View.GONE
-            button.visibility = View.VISIBLE
+            textView.visibility = View.VISIBLE
         })
     }
 }
