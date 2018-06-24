@@ -15,7 +15,7 @@
         android:layout_marginTop="64dp"
         android:text="开始测试"
         android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/selector"
+        app:layout_constraintEnd_toStartOf="@+id/spinner"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
