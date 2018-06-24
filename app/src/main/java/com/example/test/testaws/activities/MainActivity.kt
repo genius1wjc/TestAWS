@@ -4,23 +4,27 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import com.example.test.testaws.R
-import com.example.test.testaws.R.id.*
 import com.example.test.testaws.models.SubwayLine
 import com.example.test.testaws.models.TestPostRequest
-import com.example.test.testaws.services.APIProvider
 import com.example.test.testaws.services.TestAWSAPI
+import com.example.test.testaws.services.TestAWSAPIProvider.getRegionAPI
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private var postCount: Int = 0
     private var getCount: Int = 0
+    private var selectedRegion = "东京"
     private val postDurations: MutableList<Long> = mutableListOf()
     private val getDurations: MutableList<Long> = mutableListOf()
+    private var regions = listOf("东京", "新加坡", "加州")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +39,9 @@ class MainActivity : AppCompatActivity() {
             result2.text = ""
             v.isEnabled = false
             progressBar.visibility = View.VISIBLE
-            val testAWSAPI = APIProvider.getTestAWSAPI()
 
+            val testAWSAPI = getRegionAPI(selectedRegion)
+            testAWSAPI ?: return@setOnClickListener
             testPost(testAWSAPI)
             testGet(testAWSAPI)
             testPost(testAWSAPI)
@@ -50,7 +55,19 @@ class MainActivity : AppCompatActivity() {
 
             v.isEnabled = true
         })
+
+        val dataAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, regions)
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = dataAdapter
+        spinner.setSelection(0)
+        spinner.onItemSelectedListener = this
     }
+
+    override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+        selectedRegion = parent.getItemAtPosition(position).toString()
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>) {}
 
     private fun showAlert(title: String, message: String) {
         AlertDialog.Builder(this)
