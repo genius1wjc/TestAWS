@@ -20,7 +20,8 @@ object TestAWSAPIProvider {
                 .addConverterFactory(JacksonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
-        return retrofit.create(TestAWSAPI::class.java)
+        tokyoAPI = retrofit.create(TestAWSAPI::class.java)
+        return tokyoAPI!!
     }
 
     private fun getSingaporeAPI(): TestAWSAPI {
@@ -29,7 +30,8 @@ object TestAWSAPIProvider {
                 .addConverterFactory(JacksonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
-        return retrofit.create(TestAWSAPI::class.java)
+        singaporeAPI = retrofit.create(TestAWSAPI::class.java)
+        return singaporeAPI!!
     }
 
     private fun getCaliforniaAPI(): TestAWSAPI {
@@ -38,7 +40,8 @@ object TestAWSAPIProvider {
                 .addConverterFactory(JacksonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
-        return retrofit.create(TestAWSAPI::class.java)
+        californiaAPI = retrofit.create(TestAWSAPI::class.java)
+        return californiaAPI!!
     }
 
     fun getRegionAPI(region: String): TestAWSAPI? =
